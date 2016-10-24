@@ -35,6 +35,34 @@ following into your terminal to switch the user and then type your password:
 6. You should now be all set up to start using PostgreSQL. For documentation on
 command line tools etc see http://postgresapp.com/documentation/
 
+### Create your first PostgreSQL database
+
+1. To start PostgreSQL, type this command into the terminal:  
+`sudo -u postgres psql`  
+It's saying, "start the PostgreSQL server with the postgres admin user"
+
+2. Next type this command into the PostgreSQL interface:  
+`CREATE DATABASE test;`  
+**NOTE:** Don't forget the semi-colon. If you do, useful error messages won't
+show up.
+
+3. To check that our database has been created, type `\l` into the psql prompt.
+You should see something like this in your terminal:
+![test db](https://cloud.githubusercontent.com/assets/12450298/19650613/ce278678-9a01-11e6-89ad-b124c0adcfe5.png)
+
+### Create a user entry for your database
+
+1. If you closed the PostgreSQL server, start it again with:  
+`sudo -u postgres psql`  
+
+2. To create a new user, type the following into the psql prompt:  
+`CREATE USER test;`
+
+3. Check that your user has been created. Type `\du` into the prompt. You should
+see something like this:
+![user](https://cloud.githubusercontent.com/assets/12450298/19650852/9c340708-9a02-11e6-8f06-75f1e30a86b3.png)
+Users can be used to access the `psql` prompt. 
+
 ### Commands
 Once you are serving the database from your computer
 
