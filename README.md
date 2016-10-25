@@ -79,6 +79,17 @@ created above. Enter the following command into the `psql` prompt:
 `GRANT ALL PRIVILEGES ON DATABASE test TO testuser;`
 
 
+### PostGIS - Spacial and Geographic objects for PostgreSQL
+If you've installed Postgress App as in the example above, you can easily
+extend it to include PostGIS. Follow these steps to begin using PostGIS:
+
+1. Ensure that you're logged in as a user OTHER THAN `postgres`. Follow the
+steps above to enable your default user to be able to access the `psql` prompt.
+(_[installation step 7](#installation)_)
+
+2. Type the following into the `psql` prompt to add the extension:  
+`CREATE EXTENSION postgis;`
+
 ### Commands
 Once you are serving the database from your computer
 
@@ -162,3 +173,5 @@ This will group the rows together by the venue_id, count is then performed on ea
 Node-hero - https://blog.risingstack.com/node-js-database-tutorial/
 Pluralsight - https://www.pluralsight.com/courses/postgresql-getting-started
 Tech Republic - http://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/
+PostGIS install - http://postgis.net/install/
+PostGIS docs - http://postgis.net/docs/manual-2.3/
