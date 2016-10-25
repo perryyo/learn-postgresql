@@ -80,7 +80,9 @@ created above. Enter the following command into the `psql` prompt:
 
 
 ### PostGIS - Spacial and Geographic objects for PostgreSQL
-If you've installed Postgress App as in the example above, you can easily
+
+#### PostGIS Installation
+If you've installed Postgres App as in the example above, you can easily
 extend it to include PostGIS. Follow these steps to begin using PostGIS:
 
 1. Ensure that you're logged in as a user OTHER THAN `postgres`. Follow the
@@ -89,6 +91,19 @@ steps above to enable your default user to be able to access the `psql` prompt.
 
 2. Type the following into the `psql` prompt to add the extension:  
 `CREATE EXTENSION postgis;`
+
+#### PostGIS Distance between two sets of coordinates
+
+After you've extended PostgreSQL with PostGIS you can begin to use it. Type
+the following command into the `psql` command line:  
+`SELECT ST_Distance(gg1, gg2) As spheroid_dist
+FROM (SELECT
+	ST_GeogFromText('SRID=4326;POINT(-72.1235 42.3521)') As gg1,
+  ST_GeogFromText('SRID=4326;POINT(-72.1235 43.1111)') As gg2
+	) As foo  ;`  
+This should return `spheroid_dist` along with a value in meters. The
+example above returns: `84315.42034614` which is rougly 84.3km between the two
+points.
 
 ### Commands
 Once you are serving the database from your computer
@@ -175,3 +190,4 @@ Pluralsight - https://www.pluralsight.com/courses/postgresql-getting-started
 Tech Republic - http://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/
 PostGIS install - http://postgis.net/install/
 PostGIS docs - http://postgis.net/docs/manual-2.3/
+PostGIS ST_Distance - http://postgis.net/docs/ST_Distance.html
