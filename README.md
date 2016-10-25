@@ -2,6 +2,109 @@
 ###learn-postgresql
 Learn how to use PostgreSQL to store your relational data
 
+### Installation
+Before you get started with using PostgreSQL, you'll have to install it.
+Follow these steps to get started:
+
+1. There are a couple of ways to install PostgreSQL. One of the easier ways to
+get started is with Postgres.app. Navigate to http://postgresapp.com/ and then
+click "Download":
+![download](https://cloud.githubusercontent.com/assets/12450298/19641848/6d3cfa4a-99da-11e6-858f-3ff2ada026be.png)
+
+2. Once it's finished downloading, double click on the file to unzip then move
+the PostgreSQL elephant icon into your `applications` folder. Double click the
+icon to launch the application.
+
+3. You should see a new window launched that says "Welcome to Postgres". If it
+says that it cannot connect to the postgres server this means that the DEFAULT
+port is probably already in use. Make sure you don't have any other instances of
+Postgres on your computer. Uninstall them if you do and then resume with these
+steps. Click on the button that says "Open psql":
+![open psql](https://cloud.githubusercontent.com/assets/12450298/19642044/463eceae-99db-11e6-8907-bb3a6cc532a7.png)
+
+4. After clicking the button a new terminal window should open. You might see an
+error that looks like: `psql: FATAL:  role "[your_username]" does not exist`.
+This is because Postgres needs to be set up with a `Postgres` user. Type the
+following into your terminal to switch the user and then type your password:
+
+`sudo -u postgres '/Applications/Postgres.app/Contents/Versions/9.6/bin'/psql -p5432`
+
+5. You should then see something in your terminal that looks like this:
+![terminal](https://cloud.githubusercontent.com/assets/12450298/19642816/f8ac0c66-99de-11e6-87e2-db55e6abc27b.png)
+
+6. You should now be all set up to start using PostgreSQL. For documentation on
+command line tools etc see http://postgresapp.com/documentation/
+
+7. To grant your default user permission to using `psql`, you must first create
+a database with the same name as your default user. Type the following command
+from within the `psql` prompt to do so:  
+`CREATE USER yourusername WITH SUPERUSER;`  
+`CREATE DATABASE yourusername;`  
+Next time you start the postgres app you'll be able to log straight in to the
+`psql` prompt without using the `postgres` user.
+
+
+
+### Create your first PostgreSQL database
+
+1. To start PostgreSQL, type this command into the terminal:  
+`sudo -u postgres psql`  
+It's saying, "start the PostgreSQL server with the postgres admin user"
+
+2. Next type this command into the PostgreSQL interface:  
+`CREATE DATABASE test;`  
+**NOTE:** Don't forget the semi-colon. If you do, useful error messages won't
+show up.
+
+3. To check that our database has been created, type `\l` into the psql prompt.
+You should see something like this in your terminal:
+![test db](https://cloud.githubusercontent.com/assets/12450298/19650613/ce278678-9a01-11e6-89ad-b124c0adcfe5.png)
+
+### Create a user for your database
+
+1. If you closed the PostgreSQL server, start it again with:  
+`sudo -u postgres psql`  
+
+2. To create a new user, type the following into the psql prompt:  
+`CREATE USER testuser;`
+
+3. Check that your user has been created. Type `\du` into the prompt. You should
+see something like this:
+![user](https://cloud.githubusercontent.com/assets/12450298/19650852/9c340708-9a02-11e6-8f06-75f1e30a86b3.png)
+Users can be given certain permissions to access any given database you have
+created.
+
+4. Next we need to give our user permissions to access the test database we
+created above. Enter the following command into the `psql` prompt:  
+`GRANT ALL PRIVILEGES ON DATABASE test TO testuser;`
+
+
+### PostGIS - Spacial and Geographic objects for PostgreSQL
+
+#### PostGIS Installation
+If you've installed Postgres App as in the example above, you can easily
+extend it to include PostGIS. Follow these steps to begin using PostGIS:
+
+1. Ensure that you're logged in as a user OTHER THAN `postgres`. Follow the
+steps above to enable your default user to be able to access the `psql` prompt.
+(_[installation step 7](#installation)_)
+
+2. Type the following into the `psql` prompt to add the extension:  
+`CREATE EXTENSION postgis;`
+
+#### PostGIS Distance between two sets of coordinates
+
+After you've extended PostgreSQL with PostGIS you can begin to use it. Type
+the following command into the `psql` command line:  
+`SELECT ST_Distance(gg1, gg2) As spheroid_dist
+FROM (SELECT
+	ST_GeogFromText('SRID=4326;POINT(-72.1235 42.3521)') As gg1,
+  ST_GeogFromText('SRID=4326;POINT(-72.1235 43.1111)') As gg2
+	) As foo  ;`  
+This should return `spheroid_dist` along with a value in meters. The
+example above returns: `84315.42034614` which is rougly 84.3km between the two
+points.
+
 ### Commands
 Once you are serving the database from your computer
 
@@ -80,3 +183,11 @@ You can put rows into groups where the group is defined by a shared value in a p
   GROUP BY venue_id;`
 
 This will group the rows together by the venue_id, count is then performed on each of the groups.
+
+### Learning Resources
+Node-hero - https://blog.risingstack.com/node-js-database-tutorial/
+Pluralsight - https://www.pluralsight.com/courses/postgresql-getting-started
+Tech Republic - http://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/
+PostGIS install - http://postgis.net/install/
+PostGIS docs - http://postgis.net/docs/manual-2.3/
+PostGIS ST_Distance - http://postgis.net/docs/ST_Distance.html
