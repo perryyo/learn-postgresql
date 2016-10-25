@@ -35,6 +35,16 @@ following into your terminal to switch the user and then type your password:
 6. You should now be all set up to start using PostgreSQL. For documentation on
 command line tools etc see http://postgresapp.com/documentation/
 
+7. To grant your default user permission to using `psql`, you must first create
+a database with the same name as your default user. Type the following command
+from within the `psql` prompt to do so:  
+`CREATE USER yourusername WITH SUPERUSER;`  
+`CREATE DATABASE yourusername;`  
+Next time you start the postgres app you'll be able to log straight in to the
+`psql` prompt without using the `postgres` user.
+
+
+
 ### Create your first PostgreSQL database
 
 1. To start PostgreSQL, type this command into the terminal:  
@@ -50,18 +60,24 @@ show up.
 You should see something like this in your terminal:
 ![test db](https://cloud.githubusercontent.com/assets/12450298/19650613/ce278678-9a01-11e6-89ad-b124c0adcfe5.png)
 
-### Create a user entry for your database
+### Create a user for your database
 
 1. If you closed the PostgreSQL server, start it again with:  
 `sudo -u postgres psql`  
 
 2. To create a new user, type the following into the psql prompt:  
-`CREATE USER test;`
+`CREATE USER testuser;`
 
 3. Check that your user has been created. Type `\du` into the prompt. You should
 see something like this:
 ![user](https://cloud.githubusercontent.com/assets/12450298/19650852/9c340708-9a02-11e6-8f06-75f1e30a86b3.png)
-Users can be used to access the `psql` prompt. 
+Users can be given certain permissions to access any given database you have
+created.
+
+4. Next we need to give our user permissions to access the test database we
+created above. Enter the following command into the `psql` prompt:  
+`GRANT ALL PRIVILEGES ON DATABASE test TO testuser;`
+
 
 ### Commands
 Once you are serving the database from your computer
@@ -141,3 +157,8 @@ You can put rows into groups where the group is defined by a shared value in a p
   GROUP BY venue_id;`
 
 This will group the rows together by the venue_id, count is then performed on each of the groups.
+
+### Learning Resources
+Node-hero - https://blog.risingstack.com/node-js-database-tutorial/
+Pluralsight - https://www.pluralsight.com/courses/postgresql-getting-started
+Tech Republic - http://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/
