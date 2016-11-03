@@ -6,6 +6,8 @@ Learn how to use PostgreSQL to store your relational data
 Before you get started with using PostgreSQL, you'll have to install it.
 Follow these steps to get started:
 
+#### MacOS
+
 1. There are a couple of ways to install PostgreSQL. One of the easier ways to
 get started is with Postgres.app. Navigate to http://postgresapp.com/ and then
 click "Download":
@@ -43,7 +45,24 @@ from within the `psql` prompt to do so:
 Next time you start the postgres app you'll be able to log straight in to the
 `psql` prompt without using the `postgres` user.
 
+#### Ubuntu
 
+Digital Ocean have got a great article on [getting started with postgres]( https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-and-delete-tables)
+
+In essence:
+
+###### To install:
+```
+$	sudo apt-get update
+$	sudo apt-get install postgresql postgresql-contrib
+```
+
+###### To get it running:
+
+```
+$ sudo -i -u postgres
+$ psql
+```
 
 ### Create your first PostgreSQL database
 
