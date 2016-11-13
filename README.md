@@ -52,17 +52,15 @@ Digital Ocean have got a great article on [getting started with postgres]( https
 In essence:
 
 ###### To install:
-```
-$	sudo apt-get update
-$	sudo apt-get install postgresql postgresql-contrib
-```
+`sudo apt-get update`
+
+`sudo apt-get install postgresql postgresql-contrib`
 
 ###### To get it running:
 
-```
-$ sudo -i -u postgres
-$ psql
-```
+`sudo -i -u postgres`
+
+`psql`
 
 ### Create your first PostgreSQL database
 
