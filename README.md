@@ -1,5 +1,5 @@
 
-###learn-postgresql
+## learn-postgresql
 Learn how to use PostgreSQL to store your relational data
 
 ### Installation
@@ -29,7 +29,9 @@ error that looks like: `psql: FATAL:  role "[your_username]" does not exist`.
 This is because Postgres needs to be set up with a `Postgres` user. Type the
 following into your terminal to switch the user and then type your password:
 
-`sudo -u postgres '/Applications/Postgres.app/Contents/Versions/9.6/bin'/psql -p5432`
+```
+sudo -u postgres '/Applications/Postgres.app/Contents/Versions/9.6/bin'/psql -p5432
+```
 
 5. You should then see something in your terminal that looks like this:
 ![terminal](https://cloud.githubusercontent.com/assets/12450298/19642816/f8ac0c66-99de-11e6-87e2-db55e6abc27b.png)
@@ -40,8 +42,12 @@ command line tools etc see http://postgresapp.com/documentation/
 7. To grant your default user permission to using `psql`, you must first create
 a database with the same name as your default user. Type the following command
 from within the `psql` prompt to do so:  
-`CREATE USER yourusername WITH SUPERUSER;`  
-`CREATE DATABASE yourusername;`  
+
+```sql
+CREATE USER yourusername WITH SUPERUSER;
+CREATE DATABASE yourusername;
+```
+
 Next time you start the postgres app you'll be able to log straight in to the
 `psql` prompt without using the `postgres` user.
 
@@ -52,15 +58,18 @@ Digital Ocean have got a great article on [getting started with postgres]( https
 In essence:
 
 ###### To install:
-`sudo apt-get update`
 
-`sudo apt-get install postgresql postgresql-contrib`
+```
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+```
 
 ###### To get it running:
 
-`sudo -i -u postgres`
-
-`psql`
+```
+sudo -i -u postgres
+psql
+```
 
 ### Create your first PostgreSQL database
 
@@ -83,7 +92,9 @@ You should see something like this in your terminal:
 `sudo -u postgres psql`  
 
 2. To create a new user, type the following into the psql prompt:  
-`CREATE USER testuser;`
+    ```sql
+    CREATE USER testuser;
+    ```
 
 3. Check that your user has been created. Type `\du` into the prompt. You should
 see something like this:
@@ -93,7 +104,9 @@ created.
 
 4. Next we need to give our user permissions to access the test database we
 created above. Enter the following command into the `psql` prompt:  
-`GRANT ALL PRIVILEGES ON DATABASE test TO testuser;`
+    ```sql
+    GRANT ALL PRIVILEGES ON DATABASE test TO testuser;
+    ```
 
 
 ### PostGIS - Spacial and Geographic objects for PostgreSQL
@@ -113,11 +126,15 @@ steps above to enable your default user to be able to access the `psql` prompt.
 
 After you've extended PostgreSQL with PostGIS you can begin to use it. Type
 the following command into the `psql` command line:  
-`SELECT ST_Distance(gg1, gg2) As spheroid_dist
+
+```sql
+SELECT ST_Distance(gg1, gg2) As spheroid_dist
 FROM (SELECT
 	ST_GeogFromText('SRID=4326;POINT(-72.1235 42.3521)') As gg1,
-  ST_GeogFromText('SRID=4326;POINT(-72.1235 43.1111)') As gg2
-	) As foo  ;`  
+	ST_GeogFromText('SRID=4326;POINT(-72.1235 43.1111)') As gg2
+	) As foo  ;
+```
+
 This should return `spheroid_dist` along with a value in meters. The
 example above returns: `84315.42034614` which is rougly 84.3km between the two
 points.
@@ -132,7 +149,7 @@ Once you are serving the database from your computer
 `\d;`
 
 - To select (and show in terminal) all tables
-`select * from table_name`
+`SELECT * FROM table_name`
 
 
 - To make a table
@@ -159,9 +176,6 @@ col_name only require if only some of the cols are being filled out
   WHERE column_name = ‘hello';`
 
 
-
-
-
 Postgresql follows the SQL convention of calling relations TABLES, attributes COLUMNs and tuples ROWS
 
 **Transaction**
@@ -170,14 +184,16 @@ All or nothing, if something fails the other commands are rolled back like nothi
 **Reference**
 When a table is being created you can reference a column in another table to make sure any value which is added to that column exists in the referenced table.
 
-`CREATE TABLE cities (
+```sql
+CREATE TABLE cities (
   name text NOT NULL,
   postal_code varchar(9) CHECK (postal_code <> ''),
   country_code char(2) REFERENCES countries,
   PRIMARY KEY (country_code, postal_code)
-);`
+);
+```
 
-“<>” means not equal
+`<>` means not equal
 
 
 **Join reads**
@@ -186,25 +202,30 @@ You can join tables together when reading them,
 **Inner Join**
 Joins together two tables by specifying a column in each to join them by i.e.
 
-`SELECT cities.*, country_name
+```sql
+SELECT cities.*, country_name
   FROM cities INNER JOIN countries
-  ON cities.country_code = countries.country_code;`
+  ON cities.country_code = countries.country_code;
+```
 
 This will select all of the columns in both the countries and cities tables the data, the rows are matched up by country_code.
 
 **Grouping**
 You can put rows into groups where the group is defined by a shared value in a particular column.
 
-`SELECT venue_id, count(*)
+```sql
+SELECT venue_id, count(*)
   FROM events
-  GROUP BY venue_id;`
+  GROUP BY venue_id;
+```
 
 This will group the rows together by the venue_id, count is then performed on each of the groups.
 
 ### Learning Resources
-Node-hero - https://blog.risingstack.com/node-js-database-tutorial/
-Pluralsight - https://www.pluralsight.com/courses/postgresql-getting-started
-Tech Republic - http://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/
-PostGIS install - http://postgis.net/install/
-PostGIS docs - http://postgis.net/docs/manual-2.3/
-PostGIS ST_Distance - http://postgis.net/docs/ST_Distance.html
+
+- [Node-hero](https://blog.risingstack.com/node-js-database-tutorial/)
+- [Pluralsight](https://www.pluralsight.com/courses/postgresql-getting-started)
+- [Tech Republic](http://www.techrepublic.com/blog/diy-it-guy/diy-a-postgresql-database-server-setup-anyone-can-handle/)
+- [PostGIS install](http://postgis.net/install/)
+- [PostGIS docs](http://postgis.net/docs/manual-2.3/)
+- [PostGIS ST_Distance](http://postgis.net/docs/ST_Distance.html)
