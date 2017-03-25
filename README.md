@@ -24,58 +24,49 @@ Postgres on your computer. Uninstall them if you do and then resume with these
 steps. Click on the button that says "Open psql":
 ![open psql](https://cloud.githubusercontent.com/assets/12450298/19642044/463eceae-99db-11e6-8907-bb3a6cc532a7.png)
 
-4. After clicking the button a new terminal window should open. You might see an
-error that looks like: `psql: FATAL:  role "[your_username]" does not exist`.
-This is because Postgres needs to be set up with a `Postgres` user. Type the
-following into your terminal to switch the user and then type your password:
+4. Postgres.app will by default create a role and database that matches your current macOS username. You can connect straight away by running `psql`.
 
-```
-sudo -u postgres '/Applications/Postgres.app/Contents/Versions/9.6/bin'/psql -p5432
-```
-
-5. You should then see something in your terminal that looks like this:
+5. You should then see something in your terminal that looks like this (with your macOS username in front of the prompt rather than 'postgres'):
 ![terminal](https://cloud.githubusercontent.com/assets/12450298/19642816/f8ac0c66-99de-11e6-87e2-db55e6abc27b.png)
 
 6. You should now be all set up to start using PostgreSQL. For documentation on
 command line tools etc see http://postgresapp.com/documentation/
 
-7. To grant your default user permission to using `psql`, you must first create
-a database with the same name as your default user. Type the following command
-from within the `psql` prompt to do so:  
-
-```sql
-CREATE USER yourusername WITH SUPERUSER;
-CREATE DATABASE yourusername;
-```
-
-Next time you start the postgres app you'll be able to log straight in to the
-`psql` prompt without using the `postgres` user.
-
 #### Ubuntu
 
-Digital Ocean have got a great article on [getting started with postgres]( https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-and-delete-tables)
+Digital Ocean have got a great article on [getting started with postgres]( https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-and-delete-tables). A quick summary is below.
 
-In essence:
-
-###### To install:
+##### Installation
 
 ```
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
 ```
 
-###### To get it running:
+By default the only role created is the default 'postgres', so PostgreSQL will only respond to connections from an Ubuntu user called 'postgres'. We need to pretend to be that user and create a role matching our actual Ubuntu username:
 
 ```
-sudo -i -u postgres
-psql
+sudo -u postgres createuser --interactive
 ```
+
+This command means 'run the command `createuser --interactive` as the user called "postgres"'.
+
+When asked for the name of the role enter your Ubuntu username. If you're not sure, open a new Terminal tab and run `whoami`.
+
+When asked if you want to make the role a superuser, type 'y'.
+
+We now need to create the database matching the role name, as PostgreSQL expects this. Run:
+
+```
+sudo -u postgres createdb [your user name]
+```
+
+You can now connect to PostgreSQL by running `psql`.
 
 ### Create your first PostgreSQL database
 
 1. To start PostgreSQL, type this command into the terminal:  
-`sudo -u postgres psql`  
-It's saying, "start the PostgreSQL server with the postgres admin user"
+`psql`  
 
 2. Next type this command into the PostgreSQL interface:  
 `CREATE DATABASE test;`  
@@ -86,10 +77,10 @@ show up.
 You should see something like this in your terminal:
 ![test db](https://cloud.githubusercontent.com/assets/12450298/19650613/ce278678-9a01-11e6-89ad-b124c0adcfe5.png)
 
-### Create a user for your database
+### Create new users for your database
 
 1. If you closed the PostgreSQL server, start it again with:  
-`sudo -u postgres psql`  
+` psql`  
 
 2. To create a new user, type the following into the psql prompt:  
     ```sql
