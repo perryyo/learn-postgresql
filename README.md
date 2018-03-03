@@ -34,7 +34,7 @@ command line tools etc see http://postgresapp.com/documentation/
 
 #### Ubuntu
 
-Digital Ocean have got a great article on [getting started with postgres]( https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04#create-and-delete-tables). A quick summary is below.
+Digital Ocean have got a great article on [getting started with postgres]( https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04). A quick summary is below.
 
 ##### Installation
 
